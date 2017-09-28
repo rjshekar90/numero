@@ -1,3 +1,6 @@
+
+#DB Connection Code
+
 import pymysql
 mydb=pymysql.connect('localhost','root','root','python_usa')
 cur=mydb.cursor()
