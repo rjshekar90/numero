@@ -1,6 +1,12 @@
 
 #DB Connection Code
 
+import smtp
+from email.MIMEMultipart import MIMEMultipart
+from email.MIMEText import MIMEText
+from email.MIMEBase import MIMEBase
+from email import encoders
+
 import pymysql
 mydb=pymysql.connect('localhost','root','root','python_usa')
 cur=mydb.cursor()
@@ -40,6 +46,38 @@ def export_to_excel():
 
     for item in data:
         c.writerow(item)
+
+def send_email():
+   fromaddr = "email address"
+   toaddr = "Receveivers email addr"
+   msg = MIMEMultipart()
+
+   msg['From'] = #fromaddr
+   msg['To'] = #toaddr
+   msg['Subject'] = "SUBJECT OF THE EMAIL"
+
+   body = "TEXT YOU WANT TO SEND"
+
+   msg.attach(MIMEText(body, 'plain'))
+
+   filename = #"NAME OF THE FILE WITH ITS EXTENSION"
+   attachment = open("PATH OF THE FILE", "rb")  #location of the file
+
+   part = MIMEBase('application', 'octet-stream')
+   part.set_payload((attachment).read())
+   encoders.encode_base64(part)
+   part.add_header('Content-Disposition', "attachment; filename= %s" % filename)
+
+   msg.attach(part)
+
+   # change gmail settings to allow less secure apps.
+   server = smtplib.SMTP('smtp.gmail.com', 587)
+   server.starttls()
+   server.login(fromaddr, "YOUR PASSWORD")
+   text = msg.as_string()
+   server.sendmail(fromaddr, toaddr, text)
+   server.quit()
+
 
 def quit_db_excel():
     curr.close()

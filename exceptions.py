@@ -12,3 +12,5 @@ finally:
 
 
 #use raise to raise exception.
+
+# Create class Myexception and the use to raise default error message.
